@@ -4,7 +4,11 @@ import { ChallengesContext } from '../contexts/ChallengesContext';
 import styles from '../styles/components/ChallengeBox.module.css';
 
 const ChallengeBox: React.FC = () => {
-    const { currentChallenge} = useContext(ChallengesContext);
+    const {
+        currentChallenge,
+        failedChallenge,
+        successfullyChallenge,
+    } = useContext(ChallengesContext);
 
     return (
         <div className={styles.challengeBoxContainer}>
@@ -12,22 +16,25 @@ const ChallengeBox: React.FC = () => {
                 <div className={styles.challengeActive}>
                     <header>Ganhe {currentChallenge.amount} xp</header>
                     <main>
-                        <img src={`icons/${currentChallenge.type}.svg`} alt={currentChallenge.type} />
+                        <img
+                            src={`icons/${currentChallenge.type}.svg`}
+                            alt={currentChallenge.type}
+                        />
                         <strong>Exercite-se</strong>
-                        <p>
-                            {currentChallenge.description}
-                        </p>
+                        <p>{currentChallenge.description}</p>
                     </main>
                     <footer>
                         <button
                             type="button"
                             className={styles.challengeFailedButton}
+                            onClick={failedChallenge}
                         >
                             Falhei
                         </button>
                         <button
                             type="button"
                             className={styles.challengeSuccededButton}
+                            onClick={successfullyChallenge}
                         >
                             Consegui
                         </button>

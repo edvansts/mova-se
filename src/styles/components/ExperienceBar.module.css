@@ -19,6 +19,7 @@
   span.currentExperience {
     position: absolute;
     top: 12px;
+    white-space: nowrap;
   
     transform: translateX(-50%);
   }
@@ -27,4 +28,6 @@
     background-color: var(--green);
     height: 4px;
     border-radius: 4px;
+
+    transition: width 1s;
   }

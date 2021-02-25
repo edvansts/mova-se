@@ -1,11 +1,21 @@
-import React, { createContext, Dispatch, ReactNode, useState } from 'react';
+import React, {
+    createContext,
+    Dispatch,
+    ReactNode,
+    useEffect,
+    useState,
+} from 'react';
 
 interface State {
     level: number;
     currentExperience: number;
     currentChallenge: Challenge | null;
+    experienceToNextLevel: number;
+    currentLevelExperience: number;
+    challengesCompleted: number;
     startNewChallenge: () => void;
-    levelUp: () => void;
+    failedChallenge: () => void;
+    successfullyChallenge: () => void;
 }
 
 interface Challenge {
@@ -29,12 +39,22 @@ interface ChallengesProviderProps {
 export const ChallengesContext = createContext({} as State);
 
 const ChallengeProvider: React.FC<ChallengesProviderProps> = ({ children }) => {
-    const [level, setLevel] = useState(1);
+    const [level, setLevel] = useState(0);
     const [currentExperience, setCurrentExperience] = useState(0);
     const [
         currentChallenge,
         setCurrentChallenge,
     ] = useState<Challenge | null>();
+    const [challengesCompleted, setChallengesCompleted] = useState(0);
+
+    const currentLevelExperience = Math.pow(level * 4, 2);
+    const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
+
+    useEffect(() => {
+        if (currentExperience > experienceToNextLevel) {
+            levelUp();
+        }
+    }, [currentExperience, level]);
 
     function levelUp() {
         setLevel(level + 1);
@@ -50,12 +70,26 @@ const ChallengeProvider: React.FC<ChallengesProviderProps> = ({ children }) => {
         setCurrentChallenge(newRandomChallenge);
     }
 
-    const state = {
+    function successfullyChallenge() {
+        setCurrentExperience(currentExperience + currentChallenge.amount);
+        setChallengesCompleted(challengesCompleted + 1);
+        setCurrentChallenge(null);
+    }
+
+    function failedChallenge() {
+        setCurrentChallenge(null);
+    }
+
+    const state: State = {
         level,
         currentExperience,
-        levelUp,
-        startNewChallenge,
         currentChallenge,
+        currentLevelExperience,
+        experienceToNextLevel,
+        challengesCompleted,
+        startNewChallenge,
+        failedChallenge,
+        successfullyChallenge,
     };
 
     return (
