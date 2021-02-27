@@ -11,11 +11,6 @@ import CompletedChallenges from '../components/CompletedChallenges';
 import Countdown from '../components/Countdown';
 
 import styles from '../styles/pages/Home.module.css';
-interface HomeProps {
-    level: number;
-    currentExperience: number;
-    challengesCompleted: number;
-}
 
 export default function Home(props) {
     return (
