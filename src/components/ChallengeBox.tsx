@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ChallengesContext } from '../contexts/ChallengesContext';
 import { CountdownContext } from '../contexts/CountdownContext';
 
@@ -13,8 +13,21 @@ const ChallengeBox: React.FC = () => {
         successfullyChallenge,
     } = useContext(ChallengesContext);
 
+    useEffect(() => {
+        if (currentChallenge) {
+            const challengeElement = document.querySelector(
+                `.${styles.challengeBoxContainer}`,
+            );
 
-    function handleChallengeSucceeded(){
+            if (challengeElement) {
+                challengeElement.scrollIntoView();
+            }else {
+                
+            }
+        }
+    }, [currentChallenge]);
+
+    function handleChallengeSucceeded() {
         successfullyChallenge();
         resetCountdown();
     }

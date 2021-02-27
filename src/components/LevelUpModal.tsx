@@ -6,8 +6,8 @@ import { FiTwitter } from 'react-icons/fi';
 import { ChallengesContext } from '../contexts/ChallengesContext';
 
 const LevelUpModal: React.FC = () => {
-    const { level, closeLevelUpModal} = useContext(ChallengesContext);
-    
+    const { level, closeLevelUpModal } = useContext(ChallengesContext);
+
     return (
         <div className={styles.overlay} onClick={closeLevelUpModal}>
             <div
@@ -21,12 +21,14 @@ const LevelUpModal: React.FC = () => {
                     <div>{level}</div>
                     <strong>Parabéns</strong>
                     <p>Você alcançou um novo level</p>
-                    <button>
-                        Compartilhar no twitter{' '}
-                        <FiTwitter
-                            style={{ marginLeft: '0.5rem' }}
-                            fill="white"
-                        />
+                    <button type="button">
+                        <span>
+                            Compartilhar no twitter{' '}
+                            <FiTwitter
+                                style={{ marginLeft: '0.5rem' }}
+                                fill="white"
+                            />
+                        </span>
                     </button>
                 </main>
             </div>

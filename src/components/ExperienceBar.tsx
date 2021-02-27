@@ -17,8 +17,10 @@ const ExperienceBar: React.FC = () => {
 
     return (
         <header className={styles.experienceBar}>
-            {currentLevelExperience != currentExperience && (
+            {currentLevelExperience != currentExperience ? (
                 <span>{currentLevelExperience} xp</span>
+            ) : (
+                ''
             )}
             <div>
                 <div style={{ width: `${percentageToNextLevel || 0}%` }} />
