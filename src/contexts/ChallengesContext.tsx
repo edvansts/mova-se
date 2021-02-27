@@ -1,12 +1,7 @@
-import React, {
-    createContext,
-    Dispatch,
-    ReactNode,
-    useEffect,
-    useState,
-} from 'react';
+import React, { createContext, ReactNode, useEffect, useState } from 'react';
 
-interface State {
+import challenges from '../static/challenges.json';
+interface ChallengesContextState {
     level: number;
     currentExperience: number;
     currentChallenge: Challenge | null;
@@ -24,9 +19,7 @@ interface Challenge {
     amount: number;
 }
 
-import challenges from '../static/challenges.json';
-
-// const initialState: State = {
+// const initialState: ChallengesContextState = {
 //     hasFinishedCountdown: false,
 //     level: 1,
 //     currentExperience: 0,
@@ -36,7 +29,7 @@ interface ChallengesProviderProps {
     children: ReactNode;
 }
 
-export const ChallengesContext = createContext({} as State);
+export const ChallengesContext = createContext({} as ChallengesContextState);
 
 const ChallengeProvider: React.FC<ChallengesProviderProps> = ({ children }) => {
     const [level, setLevel] = useState(0);
@@ -56,8 +49,15 @@ const ChallengeProvider: React.FC<ChallengesProviderProps> = ({ children }) => {
         }
     }, [currentExperience, level]);
 
+    useEffect(() => {
+        Notification.requestPermission();
+    }, []);
+
     function levelUp() {
         setLevel(level + 1);
+        const audio = new Audio('sound/levelup.mp3');
+        audio.volume = 0.75;
+        audio.play();
     }
 
     function startNewChallenge() {
@@ -68,6 +68,14 @@ const ChallengeProvider: React.FC<ChallengesProviderProps> = ({ children }) => {
             randomChallengeIndex
         ] as Challenge;
         setCurrentChallenge(newRandomChallenge);
+
+        if (Notification.permission == 'granted') {
+            new Notification(
+                '🛑  Novo desafio 🛑  Vamos se exercitar!', {
+                    body: `Valendo ${newRandomChallenge.amount}xp!`
+                },
+            );
+        }
     }
 
     function successfullyChallenge() {
@@ -78,9 +86,12 @@ const ChallengeProvider: React.FC<ChallengesProviderProps> = ({ children }) => {
 
     function failedChallenge() {
         setCurrentChallenge(null);
+        const audio = new Audio('sound/funny-slip.mp3');
+        audio.volume = 0.3;
+        audio.play();
     }
 
-    const state: State = {
+    const state: ChallengesContextState = {
         level,
         currentExperience,
         currentChallenge,
