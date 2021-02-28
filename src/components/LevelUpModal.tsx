@@ -14,23 +14,23 @@ const LevelUpModal: React.FC = () => {
                 className={styles.modalContainer}
                 onClick={event => event.stopPropagation()}
             >
-                <button type="button" onClick={closeLevelUpModal}>
+                <button type="button" onClick={closeLevelUpModal} className={styles.closeButton}>
                     <img src="/icons/close.svg" alt="Close" />
                 </button>
                 <main>
                     <div>{level}</div>
                     <strong>Parabéns</strong>
                     <p>Você alcançou um novo level</p>
-                    <button type="button">
-                        <span>
-                            Compartilhar no twitter{' '}
-                            <FiTwitter
-                                style={{ marginLeft: '0.5rem' }}
-                                fill="white"
-                            />
-                        </span>
-                    </button>
                 </main>
+                <button type="button" className={styles.shareButton}>
+                    <span>
+                        Compartilhar no twitter{' '}
+                        <FiTwitter
+                            style={{ marginLeft: '0.5rem' }}
+                            fill="currentColor"
+                        />
+                    </span>
+                </button>
             </div>
         </div>
     );

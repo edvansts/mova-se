@@ -13,6 +13,7 @@ interface CountdownContextState {
     time: number;
     isActiveCountdown: boolean;
     hasFinished: boolean;
+    percentageToEndCountdown: number;
     startCountdown: () => void;
     resetCountdown: () => void;
 }
@@ -36,6 +37,10 @@ const CountdownProvider: React.FC<CountdownProviderProps> = ({ children }) => {
 
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
+
+    const percentageToEndCountdown = Math.round(
+        ((initialTime - time) * 100) / initialTime,
+    );
 
     useEffect(() => {
         if (isActiveCountdown && time > 0) {
@@ -74,6 +79,7 @@ const CountdownProvider: React.FC<CountdownProviderProps> = ({ children }) => {
         time,
         isActiveCountdown,
         hasFinished,
+        percentageToEndCountdown,
         startCountdown,
         resetCountdown,
     };

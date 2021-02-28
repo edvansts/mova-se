@@ -21,8 +21,6 @@ const ChallengeBox: React.FC = () => {
 
             if (challengeElement) {
                 challengeElement.scrollIntoView();
-            }else {
-                
             }
         }
     }, [currentChallenge]);
@@ -40,16 +38,18 @@ const ChallengeBox: React.FC = () => {
     return (
         <div className={styles.challengeBoxContainer}>
             {currentChallenge ? (
-                <div className={styles.challengeActive}>
-                    <header>Ganhe {currentChallenge.amount} xp</header>
-                    <main>
-                        <img
-                            src={`icons/${currentChallenge.type}.svg`}
-                            alt={currentChallenge.type}
-                        />
-                        <strong>Exercite-se</strong>
-                        <p>{currentChallenge.description}</p>
-                    </main>
+                <>
+                    <div className={styles.challengeActive}>
+                        <header>Ganhe {currentChallenge.amount} xp</header>
+                        <main>
+                            <img
+                                src={`icons/${currentChallenge.type}.svg`}
+                                alt={currentChallenge.type}
+                            />
+                            <strong>Exercite-se</strong>
+                            <p>{currentChallenge.description}</p>
+                        </main>
+                    </div>
                     <footer>
                         <button
                             type="button"
@@ -66,7 +66,7 @@ const ChallengeBox: React.FC = () => {
                             Consegui
                         </button>
                     </footer>
-                </div>
+                </>
             ) : (
                 <div className={styles.challengeNotActive}>
                     <strong>Finalize um ciclo para receber um desafio.</strong>

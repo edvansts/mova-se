@@ -10,13 +10,13 @@
     box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.05);
     background-color: var(--white);
     border-radius: 8px;
-    padding: 1.5rem 2rem;
 }
 
 .challengeNotActive {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 1.5rem 2rem;
 }
 
 .challengeNotActive > strong {
@@ -41,6 +41,7 @@
 
 .challengeActive {
     height: 100%;
+    margin: 1.5rem 2rem;
 
     display: flex;
     flex-direction: column;
@@ -88,21 +89,22 @@
     line-height: 1.5;
 }
 
-.challengeActive > footer {
+.challengeBoxContainer > footer {
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+
+    border-top: 1px var(--gray-line) solid;
 }
 
-.challengeActive > footer > button {
-    height: 3rem;
+.challengeBoxContainer > footer > button {
+    height: 5rem;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
     border: 0;
-    border-radius: 5px;
 
     font-size: 1rem;
     font-weight: 600;
@@ -112,15 +114,30 @@
     transition: filter 0.2s;
 }
 
-.challengeActive > footer > button.challengeFailedButton {
+.challengeBoxContainer > footer > button.challengeFailedButton {
+    background-color: var(--red-light);
+    color: var(--red);
+
+    border-bottom-left-radius: 5px;
+}
+
+.challengeBoxContainer > footer > button.challengeFailedButton:hover {
     background-color: var(--red);
+    color: var(--white);
 }
 
-.challengeActive > footer > button.challengeSuccededButton {
+.challengeBoxContainer > footer > button.challengeSuccededButton {
+    background-color: var(--green-light);
+    color: var(--green-dark);
+
+    border-left: 1px var(--gray-line) solid;
+    border-bottom-right-radius: 5px;
+}
+.challengeBoxContainer > footer > button.challengeSuccededButton:hover {
     background-color: var(--green);
+    color: var(--white);
 }
-
-.challengeActive > footer > button:hover {
-    /* background-color: var(--hover) !important; */
+/* 
+.challengeBoxContainer > footer > button:hover {
     filter: brightness(0.9);
-}
+} */
