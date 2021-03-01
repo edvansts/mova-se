@@ -1,10 +1,13 @@
 import React, { useContext } from 'react';
 import { FiPlay, FiX, FiCheckCircle } from 'react-icons/fi';
 import { CountdownContext } from '../contexts/CountdownContext';
+import useTranslation from 'next-translate/useTranslation';
 
 import styles from '../styles/components/Countdown.module.css';
 
 const Countdown: React.FC = () => {
+    const { t } = useTranslation();
+
     const {
         minutes,
         seconds,
@@ -39,7 +42,7 @@ const Countdown: React.FC = () => {
 
             {hasFinished ? (
                 <button className={styles.countdownButton} disabled>
-                    Ciclo Encerrado
+                    {t('home:cycleClosed')}
                     <FiCheckCircle />
                 </button>
             ) : isActiveCountdown ? (
@@ -50,7 +53,7 @@ const Countdown: React.FC = () => {
                     }`}
                     onClick={resetCountdown}
                 >
-                    Abandonar ciclo
+                    {t('home:abandonCycle')}
                     <FiX />
                     <div>
                         <div
@@ -64,7 +67,7 @@ const Countdown: React.FC = () => {
                     className={styles.countdownButton}
                     onClick={startCountdown}
                 >
-                    Iniciar um ciclo
+                    {t('home:startCycle')}
                     <FiPlay fill="currentColor" />
                 </button>
             )}

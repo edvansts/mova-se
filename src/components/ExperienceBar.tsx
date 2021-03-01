@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
 import { ChallengesContext } from '../contexts/ChallengesContext';
+import useTranslation from 'next-translate/useTranslation';
 
 import styles from '../styles/components/ExperienceBar.module.css';
 
 const ExperienceBar: React.FC = () => {
+    const { t } = useTranslation();
+
     const {
         currentExperience,
         experienceToNextLevel,
@@ -28,11 +31,13 @@ const ExperienceBar: React.FC = () => {
                     className={styles.currentExperience}
                     style={{ left: `${percentageToNextLevel || 0}%` }}
                 >
-                    {currentExperience} xp
+                    {currentExperience} {t('common:xp')}
                 </span>
             </div>
             {experienceToNextLevel != currentExperience && (
-                <span>{experienceToNextLevel} xp</span>
+                <span>
+                    {experienceToNextLevel} {t('common:xp')}
+                </span>
             )}
         </header>
     );

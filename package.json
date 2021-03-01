@@ -10,6 +10,7 @@
   "dependencies": {
     "js-cookie": "^2.2.1",
     "next": "10.0.7",
+    "next-translate": "^1.0.4",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-icons": "^4.2.0"

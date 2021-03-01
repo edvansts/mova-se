@@ -1,11 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 import { ChallengesContext } from '../contexts/ChallengesContext';
 import { CountdownContext } from '../contexts/CountdownContext';
+import useTranslation from 'next-translate/useTranslation';
 
 import styles from '../styles/components/ChallengeBox.module.css';
 
 const ChallengeBox: React.FC = () => {
     const { resetCountdown } = useContext(CountdownContext);
+
+    const { t } = useTranslation();
 
     const {
         currentChallenge,
@@ -40,13 +43,17 @@ const ChallengeBox: React.FC = () => {
             {currentChallenge ? (
                 <>
                     <div className={styles.challengeActive}>
-                        <header>Ganhe {currentChallenge.amount} xp</header>
+                        <header>
+                            {t('home:winXp', {
+                                amount: currentChallenge.amount,
+                            })}
+                        </header>
                         <main>
                             <img
                                 src={`icons/${currentChallenge.type}.svg`}
                                 alt={currentChallenge.type}
                             />
-                            <strong>Exercite-se</strong>
+                            <strong>{t('home:workOut')}</strong>
                             <p>{currentChallenge.description}</p>
                         </main>
                     </div>
@@ -56,24 +63,23 @@ const ChallengeBox: React.FC = () => {
                             className={styles.challengeFailedButton}
                             onClick={handleChallengeFailed}
                         >
-                            Falhei
+                            {t('home:failed')}
                         </button>
                         <button
                             type="button"
                             className={styles.challengeSuccededButton}
                             onClick={handleChallengeSucceeded}
                         >
-                            Consegui
+                            {t('home:gotIt')}
                         </button>
                     </footer>
                 </>
             ) : (
                 <div className={styles.challengeNotActive}>
-                    <strong>Finalize um ciclo para receber um desafio.</strong>
+                    <strong>{t('home:startCycleText1')}</strong>
                     <p>
                         <img src="icons/level-up.svg" alt="LevelUp" />
-                        Complete os desafios e ganhe experiência para subir rumo
-                        ao Next Level.
+                        {t('home:startCycleDesc1')}
                     </p>
                 </div>
             )}

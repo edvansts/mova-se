@@ -1,0 +1,17 @@
+{
+    "challengesCompleted": "Desafios completados",
+    "startCycle": "Inicie um novo ciclo",
+    "abandonCycle": "Abandonar ciclo",
+    "cycleClosed": "Ciclo encerrado",
+    "startCycleText1": "Inicie um novo ciclo para receber desafios",
+    "startCycleDesc1": "Complete os desafios e ganhe experiência para subir rumo ao Next Level",
+    "startCycleText2": "Inicie um novo ciclo para receber desafios a serem completados",
+    "startCycleDesc2": "Complete-os, ganhe experiência e avance de leve",
+    "winXp": "Ganhe {{amount}} xp",
+    "workOut": "Exercite-se!",
+    "shareOn": "Compartilhar no {{socialMedia}}",
+    "congrats": "Parabéns",
+    "reachedNextLevel": "Você alcançou um novo level",
+    "gotIt": "Consegui",
+    "failed": "Falhei"
+}
