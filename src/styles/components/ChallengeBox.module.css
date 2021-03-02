@@ -30,7 +30,7 @@
     align-items: center;
     margin-top: 2.5rem;
     text-align: left;
-    max-width: 70%;
+    max-width: 80%;
 }
 
 .challengeNotActive > p img {
@@ -136,6 +136,24 @@
 .challengeBoxContainer > footer > button.challengeSuccededButton:hover {
     background-color: var(--green);
     color: var(--white);
+}
+
+.pairShow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+    text-align: center;
+    max-width: 80%;
+}
+
+.pairShow > img{
+    width: 3.75rem;
+    height: 5rem;
+}
+
+.pairShow > p {
+    margin-top: 1rem;
 }
 /* 
 .challengeBoxContainer > footer > button:hover {

@@ -33,7 +33,9 @@ export default function Home(props) {
                             <Countdown />
                         </div>
                         <div>
-                            <ChallengeBox />
+                            <ChallengeBox
+                                randomTextShow={props.randomTextShow}
+                            />
                         </div>
                     </section>
                 </CountdownProvider>
@@ -49,10 +51,13 @@ export const getServerSideProps: GetServerSideProps = async context => {
         challengesCompleted,
     } = context.req.cookies;
 
+    const randomTextShow = Math.ceil(Math.random() * 2);
+
     const userInfo = {
         level: Number(level) || 0,
         currentExperience: Number(currentExperience) || 0,
         challengesCompleted: Number(challengesCompleted) || 0,
+        randomTextShow: randomTextShow,
     };
 
     return {

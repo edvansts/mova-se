@@ -3,10 +3,14 @@
     "startCycle": "Inicie um novo ciclo",
     "abandonCycle": "Abandonar ciclo",
     "cycleClosed": "Ciclo encerrado",
-    "startCycleText1": "Inicie um novo ciclo para receber desafios",
-    "startCycleDesc1": "Complete os desafios e ganhe experiência para subir rumo ao Next Level",
-    "startCycleText2": "Inicie um novo ciclo para receber desafios a serem completados",
-    "startCycleDesc2": "Complete-os, ganhe experiência e avance de leve",
+    "startCycleText": {
+        "1": "Inicie um novo ciclo para receber desafios",
+        "2": "Inicie um novo ciclo para receber desafios a serem completados"
+    },
+    "startCycleDesc": {
+        "1": "Complete os desafios e ganhe experiência para subir rumo ao Next Level",
+        "2": "Complete-os, ganhe experiência e avance de leve"
+    },
     "winXp": "Ganhe {{amount}} xp",
     "workOut": "Exercite-se!",
     "shareOn": "Compartilhar no {{socialMedia}}",

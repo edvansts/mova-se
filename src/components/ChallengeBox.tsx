@@ -5,7 +5,11 @@ import useTranslation from 'next-translate/useTranslation';
 
 import styles from '../styles/components/ChallengeBox.module.css';
 
-const ChallengeBox: React.FC = () => {
+interface ChallengeBox {
+    randomTextShow: number;
+}
+
+const ChallengeBox: React.FC<ChallengeBox> = ({ randomTextShow }) => {
     const { resetCountdown } = useContext(CountdownContext);
 
     const { t } = useTranslation('home');
@@ -77,16 +81,24 @@ const ChallengeBox: React.FC = () => {
             ) : (
                 <div className={styles.challengeNotActive}>
                     <strong>
-                        {t(`startCycleText1`)}
+                        {t(`startCycleText`, { count: randomTextShow })}
                     </strong>
-                    <p>
-                        <img src="icons/level-up.svg" alt="LevelUp" />
-                        {t(`startCycleDesc1`)}
-                    </p>
+                    {randomTextShow % 2 == 0 ? (
+                        <div className={styles.pairShow}>
+                            <img src="icons/level-up.svg" alt="LevelUp" />
+                            <p>
+                                {t(`startCycleDesc`, { count: randomTextShow })}
+                            </p>
+                        </div>
+                    ) : (
+                        <p>
+                            <img src="icons/level-up.svg" alt="LevelUp" />
+                            {t(`startCycleDesc`, { count: randomTextShow })}
+                        </p>
+                    )}
                 </div>
             )}
         </div>
     );
 };
-
 export default ChallengeBox;

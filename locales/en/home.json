@@ -3,10 +3,14 @@
     "startCycle": "Start a cycle",
     "abandonCycle": "Abandon cycle",
     "cycleClosed": "Cycle closed",
-    "startCycleText1": "Start a cycle to receive challenges",
-    "startCycleDesc1": "Complete the challenges and gain experience to move up to the Next Level.",
-    "startCycleText2": "Start a cycle to receive challenges to be completed",
-    "startCycleDesc2": "Complete them, win experience and take it easy",
+    "startCycleText": {
+        "1": "Start a cycle to receive challenges",
+        "2": "Start a cycle to receive challenges to be completed"
+    },
+    "startCycleDesc": {
+        "1": "Complete the challenges and gain experience to move up to the Next Level",
+        "2": "Complete them, win experience and take it easy"
+    },
     "winXp": "Win {{amount}} xp",
     "workOut": "Work out!",
     "shareOn": "Share on {{socialMedia}}",
