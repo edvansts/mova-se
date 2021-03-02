@@ -10,9 +10,13 @@ import ChallengeBox from '../components/ChallengeBox';
 import CompletedChallenges from '../components/CompletedChallenges';
 import Countdown from '../components/Countdown';
 
+import useTranslation from 'next-translate/useTranslation';
+
 import styles from '../styles/pages/Home.module.css';
 
 export default function Home(props) {
+    const { t } = useTranslation();
+
     return (
         <ChallengesProvider
             level={props.level}
@@ -21,7 +25,9 @@ export default function Home(props) {
         >
             <div className={styles.container}>
                 <Head>
-                    <title>Início | Mova-se</title>
+                    <title>
+                        {t('home:title')} | {t('common:appName')}
+                    </title>
                 </Head>
 
                 <ExperienceBar />
