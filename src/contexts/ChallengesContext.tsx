@@ -1,7 +1,8 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
-import challenges from '../static/challenges.json';
+import { useRouter } from 'next/router';
+
 import LevelUpModal from '../components/LevelUpModal';
 interface ChallengesContextState {
     level: number;
@@ -51,6 +52,8 @@ const ChallengeProvider: React.FC<ChallengesProviderProps> = ({
     const currentLevelExperience = Math.pow(level * 4, 2);
     const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
 
+    const { locale } = useRouter();
+
     useEffect(() => {
         if (currentExperience > experienceToNextLevel) {
             levelUp();
@@ -81,6 +84,8 @@ const ChallengeProvider: React.FC<ChallengesProviderProps> = ({
     }
 
     function startNewChallenge() {
+        const challenges = require(`../../locales/${locale}/challenges.json`) as Array<Challenge>;  
+
         const randomChallengeIndex = Math.floor(
             Math.random() * challenges.length,
         );
@@ -88,7 +93,6 @@ const ChallengeProvider: React.FC<ChallengesProviderProps> = ({
             randomChallengeIndex
         ] as Challenge;
         setCurrentChallenge(newRandomChallenge);
-
         if (Notification.permission == 'granted') {
             new Notification('🛑  Novo desafio 🛑  Vamos se exercitar!', {
                 body: `Valendo ${newRandomChallenge.amount}xp!`,

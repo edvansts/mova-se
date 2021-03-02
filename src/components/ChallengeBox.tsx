@@ -8,7 +8,7 @@ import styles from '../styles/components/ChallengeBox.module.css';
 const ChallengeBox: React.FC = () => {
     const { resetCountdown } = useContext(CountdownContext);
 
-    const { t } = useTranslation();
+    const { t } = useTranslation('home');
 
     const {
         currentChallenge,
@@ -44,7 +44,7 @@ const ChallengeBox: React.FC = () => {
                 <>
                     <div className={styles.challengeActive}>
                         <header>
-                            {t('home:winXp', {
+                            {t('winXp', {
                                 amount: currentChallenge.amount,
                             })}
                         </header>
@@ -53,7 +53,7 @@ const ChallengeBox: React.FC = () => {
                                 src={`icons/${currentChallenge.type}.svg`}
                                 alt={currentChallenge.type}
                             />
-                            <strong>{t('home:workOut')}</strong>
+                            <strong>{t('workOut')}</strong>
                             <p>{currentChallenge.description}</p>
                         </main>
                     </div>
@@ -63,23 +63,25 @@ const ChallengeBox: React.FC = () => {
                             className={styles.challengeFailedButton}
                             onClick={handleChallengeFailed}
                         >
-                            {t('home:failed')}
+                            {t('failed')}
                         </button>
                         <button
                             type="button"
                             className={styles.challengeSuccededButton}
                             onClick={handleChallengeSucceeded}
                         >
-                            {t('home:gotIt')}
+                            {t('gotIt')}
                         </button>
                     </footer>
                 </>
             ) : (
                 <div className={styles.challengeNotActive}>
-                    <strong>{t('home:startCycleText1')}</strong>
+                    <strong>
+                        {t(`startCycleText1`)}
+                    </strong>
                     <p>
                         <img src="icons/level-up.svg" alt="LevelUp" />
-                        {t('home:startCycleDesc1')}
+                        {t(`startCycleDesc1`)}
                     </p>
                 </div>
             )}

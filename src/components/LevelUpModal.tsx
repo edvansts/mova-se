@@ -8,7 +8,7 @@ import { ChallengesContext } from '../contexts/ChallengesContext';
 import useTranslation from 'next-translate/useTranslation';
 
 const LevelUpModal: React.FC = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation('home');
 
     const { level, closeLevelUpModal } = useContext(ChallengesContext);
 
@@ -27,12 +27,12 @@ const LevelUpModal: React.FC = () => {
                 </button>
                 <main>
                     <div>{level}</div>
-                    <strong>{t('home:congrats')}</strong>
-                    <p>{t('home:reachedNextLevel')}</p>
+                    <strong>{t('congrats')}</strong>
+                    <p>{t('reachedNextLevel')}</p>
                 </main>
                 <button type="button" className={styles.shareButton}>
                     <span>
-                        {t('home:shareOn', { socialMedia: 'twitter' })}
+                        {t('shareOn', { socialMedia: 'twitter' })}
                         <FiTwitter
                             style={{ marginLeft: '0.5rem' }}
                             fill="currentColor"

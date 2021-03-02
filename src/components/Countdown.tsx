@@ -6,7 +6,7 @@ import useTranslation from 'next-translate/useTranslation';
 import styles from '../styles/components/Countdown.module.css';
 
 const Countdown: React.FC = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation('home');
 
     const {
         minutes,
@@ -42,7 +42,7 @@ const Countdown: React.FC = () => {
 
             {hasFinished ? (
                 <button className={styles.countdownButton} disabled>
-                    {t('home:cycleClosed')}
+                    {t('cycleClosed')}
                     <FiCheckCircle />
                 </button>
             ) : isActiveCountdown ? (
@@ -53,7 +53,7 @@ const Countdown: React.FC = () => {
                     }`}
                     onClick={resetCountdown}
                 >
-                    {t('home:abandonCycle')}
+                    {t('abandonCycle')}
                     <FiX />
                     <div>
                         <div
@@ -67,7 +67,7 @@ const Countdown: React.FC = () => {
                     className={styles.countdownButton}
                     onClick={startCountdown}
                 >
-                    {t('home:startCycle')}
+                    {t('startCycle')}
                     <FiPlay fill="currentColor" />
                 </button>
             )}
