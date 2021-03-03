@@ -8,12 +8,13 @@ import styles from '../styles/components/Profile.module.css';
 const Profile: React.FC = () => {
     const { t } = useTranslation();
 
-    const { level } = useContext(ChallengesContext);
+    const { level, user } = useContext(ChallengesContext);
+
     return (
         <div className={styles.profileContainer}>
-            <img src="https://github.com/edvansts.png" alt="Edvan Matos" />
+            <img src={user.avatarUrl} alt={user.name || user.login} />
             <div>
-                <strong>Edvan Matos</strong>
+                <strong>{user.name || user.login}</strong>
                 <p>
                     <img src="icons/level.svg" alt="Level" />
                     {t('common:level')} {level}

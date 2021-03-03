@@ -1,4 +1,3 @@
-import ChallengeProvider from '../contexts/ChallengesContext';
 import '../styles/global.css';
 
 function MyApp({ Component, pageProps }) {

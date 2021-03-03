@@ -1,16 +1,21 @@
 .formContainer {
     display: flex;
+    flex-direction: column;
     width: 100%;
 }
 
-.formContainer > button {
+.formContainer > div {
+    display: flex;
+}
+
+.formContainer > div > button {
     width: 5rem;
     height: 5rem;
 
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     border-radius: 0px 5px 5px 0;
     border: 0;
 
@@ -20,15 +25,15 @@
     transition: background-color 0.75s;
 }
 
-.formContainer > button:hover {
+.formContainer > div > button:hover {
     filter: brightness(0.9);
 }
 
-.formContainer > button.haveUsername {
+.formContainer > div > button.haveUsername {
     background-color: var(--green);
 }
 
-.formContainer > input {
+.formContainer > div > input {
     flex: 1;
     height: 5rem;
     padding: 1.25rem 0 1.25rem 1.5rem;
@@ -48,14 +53,38 @@
     line-height: 1.75;
 }
 
-.formContainer > input:hover {
+.formContainer > div > input:hover {
     border: 1.5px solid rgba(65, 74, 163, 1);
 }
 
-.formContainer > input:focus {
+.formContainer > div > input:focus {
     border: 1.5px solid rgba(65, 74, 163, 1);
 }
 
-.formContainer > input::placeholder {
+.formContainer > div > input::placeholder {
     color: var(--text-highlight);
+}
+
+.formContainer > label {
+    color: var(--red-light);
+    font-size: 0.8rem;
+    font-weight: 300;
+}
+
+.loader {
+    border: 3px solid var(--gray-line);
+    border-top: 3px solid var(--blue);
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    animation: spin 0.5s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

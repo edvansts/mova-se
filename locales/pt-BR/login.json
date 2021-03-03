@@ -2,5 +2,10 @@
     "title": "Login",
     "welcome": "Bem vindo",
     "loginToStart": "Faça login com seu Github para começar",
-    "usernamePlaceholder": "Digite seu username"
+    "usernamePlaceholder": "Digite seu username",
+    "inputError": {
+        "required": "Esse campo não pode ser deixado em branco",
+        "notSpaces": "Esse campo não deve conter espaços",
+        "notFound": "Usuário não encontrado"
+    }
 }

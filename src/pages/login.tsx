@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import { GetServerSideProps } from 'next';
 
 import useTranslation from 'next-translate/useTranslation';
 
@@ -44,3 +45,19 @@ export default function Login() {
         </div>
     );
 }
+
+export const getServerSideProps: GetServerSideProps = async context => {
+    if (context.req.cookies.user) {
+        return {
+            props: {},
+            redirect: {
+                destination: `${
+                    context.locale != context.defaultLocale
+                        ? `/${context.locale}`
+                        : ''
+                }/`,
+            },
+        };
+    }
+    return { props: {} };
+};

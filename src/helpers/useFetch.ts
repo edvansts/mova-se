@@ -18,9 +18,14 @@ async function useFetch(method: Method, url: string, body?: Object) {
 
     const myRequest = new Request(url, myInit);
 
-    const response = await fetch(myRequest);
+    try {
+        const response = await fetch(myRequest);
 
-    console.log(response);
+        return response;
+    } catch (err) {
+        // return err;
+        console.log('oi');
+    }
 }
 
 export default useFetch;

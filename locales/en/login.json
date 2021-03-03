@@ -2,5 +2,10 @@
     "title": "Login",
     "welcome": "Welcome",
     "loginToStart": "Log in with your Github to get started",
-    "usernamePlaceholder": "Enter your username"
+    "usernamePlaceholder": "Enter your username",
+    "inputError": {
+        "required": "This field should not be left blank",
+        "notSpaces": "This field must not contain spaces",
+        "notFound": "User not found"
+    }
 }
