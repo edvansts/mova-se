@@ -1,5 +1,6 @@
 {
     "title": "Login",
     "welcome": "Bem vindo",
-    "loginToStart": "Faça login com seu Github para começar"
+    "loginToStart": "Faça login com seu Github para começar",
+    "usernamePlaceholder": "Digite seu username"
 }

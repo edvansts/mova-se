@@ -1,0 +1,61 @@
+.formContainer {
+    display: flex;
+    width: 100%;
+}
+
+.formContainer > button {
+    width: 5rem;
+    height: 5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    border-radius: 0px 5px 5px 0;
+    border: 0;
+
+    color: var(--white);
+    background-color: var(--blue-dark);
+    transition: filter 0.2s;
+    transition: background-color 0.75s;
+}
+
+.formContainer > button:hover {
+    filter: brightness(0.9);
+}
+
+.formContainer > button.haveUsername {
+    background-color: var(--green);
+}
+
+.formContainer > input {
+    flex: 1;
+    height: 5rem;
+    padding: 1.25rem 0 1.25rem 1.5rem;
+
+    background-image: linear-gradient(
+        90deg,
+        #4953b8 0%,
+        rgba(85, 97, 215, 0.95) 100%
+    );
+
+    border-radius: 5px 0px 0px 5px;
+    border: 0;
+    outline: none;
+
+    color: var(--white);
+    font-size: 1.25rem;
+    line-height: 1.75;
+}
+
+.formContainer > input:hover {
+    border: 1.5px solid rgba(65, 74, 163, 1);
+}
+
+.formContainer > input:focus {
+    border: 1.5px solid rgba(65, 74, 163, 1);
+}
+
+.formContainer > input::placeholder {
+    color: var(--text-highlight);
+}

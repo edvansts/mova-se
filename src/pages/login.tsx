@@ -1,9 +1,11 @@
 import Head from 'next/head';
 import Image from 'next/image';
 
-import styles from '../styles/pages/Login.module.css';
-
 import useTranslation from 'next-translate/useTranslation';
+
+import LoginInput from '../components/LoginInput';
+
+import styles from '../styles/pages/Login.module.css';
 
 export default function Login() {
     const { t } = useTranslation('');
@@ -17,25 +19,27 @@ export default function Login() {
             </Head>
 
             <div className={styles.loginContent}>
-                <Image
-                    src="/icons/logo.svg"
-                    alt="Logo"
-                    width=""
-                    height=""
-                />
+                <div className={styles.logoImg}>
+                    <Image
+                        src="/icons/logo.svg"
+                        alt="Logo"
+                        width={360}
+                        height={76}
+                    />
+                </div>
 
                 <strong>{t('login:welcome')}</strong>
-                <p>
+                <div className={styles.loginToStart}>
                     <Image
                         src="/icons/github.svg"
                         alt="Github"
                         width={40}
                         height={40}
                     />
-                    {t('login:loginToStart')}
-                </p>
+                    <span>{t('login:loginToStart')}</span>
+                </div>
 
-                <input type="text" name="" id="" />
+                <LoginInput />
             </div>
         </div>
     );

@@ -45,6 +45,12 @@ body {
     }
 }
 
+@media (max-width: 360px) {
+    html {
+        font-size: 81.25%;
+    }
+}
+
 body,
 input,
 button,
