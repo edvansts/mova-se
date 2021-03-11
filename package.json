@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "firebase": "^8.2.9",
     "js-cookie": "^2.2.1",
     "next": "10.0.7",
     "next-translate": "^1.0.4",
