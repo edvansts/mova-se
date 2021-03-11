@@ -7,17 +7,14 @@ import useTranslation from 'next-translate/useTranslation';
 import LoginInput from '../components/LoginInput';
 
 import styles from '../styles/pages/Login.module.css';
+import SEO from '../components/SEO';
 
 export default function Login() {
     const { t } = useTranslation('');
 
     return (
         <div className={styles.loginContainer}>
-            <Head>
-                <title>
-                    {t('login:title')} | {t('common:appName')}
-                </title>
-            </Head>
+            <SEO title={t('login:title')} image='favicon.png' />
 
             <div className={styles.loginContent}>
                 <div className={styles.logoImg}>
