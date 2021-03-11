@@ -14,6 +14,7 @@ import useTranslation from 'next-translate/useTranslation';
 
 import styles from '../styles/pages/Home.module.css';
 import { User } from '../components/LoginInput';
+import SEO from '../components/SEO';
 
 export default function Home(props) {
     const { t } = useTranslation();
@@ -30,11 +31,7 @@ export default function Home(props) {
             user={user}
         >
             <div className={styles.container}>
-                <Head>
-                    <title>
-                        {t('home:title')} | {t('common:appName')}
-                    </title>
-                </Head>
+                <SEO title={t('home:title')} image='favicon.png' />
 
                 <ExperienceBar />
                 <CountdownProvider>
