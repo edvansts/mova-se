@@ -1,5 +1,16 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import firebase from 'firebase/app';
+import 'firebase/database';
+
+export interface UserAll {
+    avatarUrl: string;
+    challengesCompleted: number;
+    currentXp: number;
+    level: number;
+    login: string;
+    name: string;
+}
 
 import { useRouter } from 'next/router';
 
@@ -58,12 +69,73 @@ const ChallengeProvider: React.FC<ChallengesProviderProps> = ({
     );
     const [isModalLevelUpOpened, setIsLevelUpModalOpened] = useState(false);
 
+    const [database, setDatabase] = useState<firebase.database.Database>();
+
     const [user, setUser] = useState<User | null>(rest.user);
+
+    const [userId, setUserId] = useState<string>();
 
     const currentLevelExperience = Math.pow(level * 4, 2);
     const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
 
     const { locale } = useRouter();
+
+    useEffect(() => {
+        // if (!firebase) {
+        if (!database) {
+            const firebaseConfig = {
+                apiKey: 'AIzaSyDXBD7tP3HTclCE-k_sKgRMwQdRQNxZlZk',
+                authDomain: 'mova-se-dc2d1.firebaseapp.com',
+                projectId: 'mova-se-dc2d1',
+                storageBucket: 'mova-se-dc2d1.appspot.com',
+                messagingSenderId: '867261760647',
+                appId: '1:867261760647:web:3fdaf66b3587b2ccbea422',
+                measurementId: 'G-VV7GDNQE88',
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            const newDatabase = firebase.database();
+            setDatabase(newDatabase);
+        } else if (!userId) {
+            // const newUserId = firebase.database().ref().child('users').push()
+            //     .key;
+            // setUserId(newUserId);
+            // console.log(newUserId);
+            const newUser: UserAll = {
+                avatarUrl: user.avatarUrl,
+                login: user.login,
+                level: level,
+                challengesCompleted: challengesCompleted,
+                currentXp: currentExperience,
+                name: user.name,
+            };
+
+            const refData = database.ref().child(`users`);
+
+            refData
+                .push(newUser)
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } else {
+            const refData = database.ref().child(`users`).child('MVe3pBXclKw6MxQMtp4');
+
+            refData
+                .get()
+                .then(response => {
+                    console.log(response.val());
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+        // firebase.analytics();
+        // }
+    });
 
     useEffect(() => {
         if (currentExperience > experienceToNextLevel) {
@@ -95,7 +167,7 @@ const ChallengeProvider: React.FC<ChallengesProviderProps> = ({
     }
 
     function startNewChallenge() {
-        const challenges = require(`../../locales/${locale}/challenges.json`) as Array<Challenge>;  
+        const challenges = require(`../../locales/${locale}/challenges.json`) as Array<Challenge>;
 
         const randomChallengeIndex = Math.floor(
             Math.random() * challenges.length,
