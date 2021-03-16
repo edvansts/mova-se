@@ -8,13 +8,31 @@ import LoginInput from '../components/LoginInput';
 
 import styles from '../styles/pages/Login.module.css';
 import SEO from '../components/SEO';
+import useSWR from 'swr';
+
+const fetcher = async url => {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (res.status !== 200) {
+        throw new Error(data.message);
+    }
+    return data;
+};
 
 export default function Login() {
     const { t } = useTranslation('');
+    const { data, error } = useSWR(
+        `/api/users/${'-MVe5LrxnX5vw7yY3PTU'}`,
+        fetcher,
+    );
+
+    console.log(data);
+    // console.log(error);
 
     return (
         <div className={styles.loginContainer}>
-            <SEO title={t('login:title')} image='favicon.png' />
+            <SEO title={t('login:title')} image="favicon.png" />
 
             <div className={styles.loginContent}>
                 <div className={styles.logoImg}>
