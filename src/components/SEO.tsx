@@ -18,22 +18,23 @@ const SEO: React.FC<SEOProps> = ({
     shouldIndexPage = true,
 }) => {
     const { locale } = useRouter();
+
     const { t } = useTranslation();
 
     const pageTitle = `${title} ${
         !shouldHaveExcludeTitleSuffix ? `| ${t('common:appName')}` : ''
     }`;
 
-    const pageImage = `${process.env.NEXT_PUBLIC_API_URL}/${image}`;
-
     return (
         <Head>
             <title>{pageTitle}</title>
 
             {description && <meta name="description" content={description} />}
-            {pageImage && <meta name="pageImage" content={pageImage} />}
+            {image && <meta name="pageImage" content={image} />}
 
-            {!shouldIndexPage && <meta name='robots' content='noIndex,noFollow' />}
+            {!shouldIndexPage && (
+                <meta name="robots" content="noIndex,noFollow" />
+            )}
 
             <meta httpEquiv="x-ua-compatible" content="IE=edge,chrome=1" />
             <meta name="MobileOptimized" content="320" />
@@ -48,8 +49,8 @@ const SEO: React.FC<SEOProps> = ({
             <meta property="og:locale" content={locale} />
             <meta property="og:type" content="website" />
             <meta property="og:site_name" content={pageTitle} />
-            <meta property="og:image" content={pageImage} />
-            <meta property="og:image:secure_url" content={pageImage} />
+            <meta property="og:image" content={image} />
+            <meta property="og:image:secure_url" content={image} />
             <meta property="og:image:alt" content="Thumbnail" />
             <meta property="og:image:type" content="image/png" />
             <meta property="og:image:width" content="1200" />
@@ -59,8 +60,8 @@ const SEO: React.FC<SEOProps> = ({
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:site" content="@moveIt" />
             <meta name="twitter:creator" content="@moveIt" />
-            <meta name="twitter:image" content={pageImage} />
-            <meta name="twitter:image:src" content={pageImage} />
+            <meta name="twitter:image" content={image} />
+            <meta name="twitter:image:src" content={image} />
             <meta name="twitter:image:alt" content="Thumbnail" />
             <meta name="twitter:image:width" content="1200" />
             <meta name="twitter:image:height" content="620" />

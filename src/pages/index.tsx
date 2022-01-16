@@ -1,37 +1,44 @@
+import { GetServerSideProps } from 'next';
 import CountdownProvider from '../contexts/CountdownContext';
 import ChallengesProvider from '../contexts/ChallengesContext';
-
-import Head from 'next/head';
-import { GetServerSideProps } from 'next';
-
 import ExperienceBar from '../components/ExperienceBar';
 import Profile from '../components/Profile';
 import ChallengeBox from '../components/ChallengeBox';
 import CompletedChallenges from '../components/CompletedChallenges';
 import Countdown from '../components/Countdown';
-
 import useTranslation from 'next-translate/useTranslation';
+import SEO from '../components/SEO';
+import favicon from '/public/favicon.png';
+import { User } from '../models/User';
 
 import styles from '../styles/pages/Home.module.css';
-import { User } from '../components/LoginInput';
-import SEO from '../components/SEO';
 
-export default function Home(props) {
+interface Props {
+    user: User;
+    level: number;
+    currentExperience: number;
+    challengesCompleted: number;
+    randomTextShow: number;
+}
+
+export default function Home({
+    user,
+    challengesCompleted,
+    currentExperience,
+    level,
+    randomTextShow,
+}: Props) {
     const { t } = useTranslation();
-
-    const user: User = {
-        ...props.user,
-    };
 
     return (
         <ChallengesProvider
-            level={props.level}
-            currentExperience={props.currentExperience}
-            challengesCompleted={props.challengesCompleted}
+            level={level}
+            currentExperience={currentExperience}
+            challengesCompleted={challengesCompleted}
             user={user}
         >
             <div className={styles.container}>
-                <SEO title={t('home:title')} image='favicon.png' />
+                <SEO title={t('home:title')} image={favicon.src} />
 
                 <ExperienceBar />
                 <CountdownProvider>
@@ -42,9 +49,7 @@ export default function Home(props) {
                             <Countdown />
                         </div>
                         <div>
-                            <ChallengeBox
-                                randomTextShow={props.randomTextShow}
-                            />
+                            <ChallengeBox randomTextShow={randomTextShow} />
                         </div>
                     </section>
                 </CountdownProvider>
@@ -54,12 +59,8 @@ export default function Home(props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-    const {
-        level,
-        currentExperience,
-        challengesCompleted,
-        user,
-    } = context.req.cookies;
+    const { level, currentExperience, challengesCompleted, user } =
+        context.req.cookies;
 
     const randomTextShow = Math.ceil(Math.random() * 2);
 
@@ -76,7 +77,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
         };
     }
 
-    const userInfo = {
+    const props: Props = {
         level: Number(level) || 0,
         currentExperience: Number(currentExperience) || 0,
         challengesCompleted: Number(challengesCompleted) || 0,
@@ -85,6 +86,6 @@ export const getServerSideProps: GetServerSideProps = async context => {
     };
 
     return {
-        props: userInfo,
+        props,
     };
 };

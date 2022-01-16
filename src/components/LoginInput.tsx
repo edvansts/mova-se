@@ -41,8 +41,7 @@ const LoginInput: React.FC = () => {
                     token: tokenId,
                 });
 
-                console.log(result);
-                console.log(createUserResult);
+                router.push('/');
             }
         } catch (err) {
             setLoginError(t('inputError.unexpected'));

@@ -1,18 +1,15 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import { User } from '../models/User';
+import { useRouter } from 'next/router';
+import LevelUpModal from '../components/LevelUpModal';
 
-export interface UserAll {
-    avatarUrl: string;
+export interface UserAll extends User {
     challengesCompleted: number;
     currentXp: number;
     level: number;
-    login: string;
-    name: string;
 }
 
-import { useRouter } from 'next/router';
-
-import LevelUpModal from '../components/LevelUpModal';
 interface ChallengesContextState {
     level: number;
     currentExperience: number;
@@ -32,12 +29,6 @@ interface Challenge {
     type: 'body' | 'eye';
     description: string;
     amount: number;
-}
-
-export interface User {
-    name: string;
-    login: string;
-    avatarUrl: string;
 }
 
 interface ChallengesProviderProps {
@@ -66,8 +57,6 @@ const ChallengeProvider: React.FC<ChallengesProviderProps> = ({
     const [isModalLevelUpOpened, setIsLevelUpModalOpened] = useState(false);
 
     const [user, setUser] = useState<User | null>(rest.user);
-
-    const [userId, setUserId] = useState<string>();
 
     const currentLevelExperience = Math.pow(level * 4, 2);
     const experienceToNextLevel = Math.pow((level + 1) * 4, 2);

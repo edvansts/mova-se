@@ -1,12 +1,22 @@
 import admin from 'firebase-admin';
 
-import adminKeys from '../../adminKeys.json';
+import {
+    FIREBASE_DATABASE_URL,
+    FIREBASE_SERVER_NAME,
+    FIREBASE_SERVICE_ACCOUNT_KEY,
+} from '../static/constants';
 
-const serverInstanceName = process.env.NEXT_PUBLIC_FIREBASE_SERVER_NAME;
+const serverInstanceName = FIREBASE_SERVER_NAME;
+
+const FIREBASE_SERVICE_ACCOUNT_KEY_JSON = JSON.parse(
+    FIREBASE_SERVICE_ACCOUNT_KEY,
+);
 
 const serverCredentials = {
-    credential: admin.credential.cert(adminKeys as admin.ServiceAccount),
-    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+    credential: admin.credential.cert(
+        FIREBASE_SERVICE_ACCOUNT_KEY_JSON as admin.ServiceAccount,
+    ),
+    databaseURL: FIREBASE_DATABASE_URL,
 };
 
 class FirebaseServer {

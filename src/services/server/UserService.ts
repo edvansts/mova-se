@@ -37,7 +37,7 @@ export class UserService {
             }
 
             return {
-                user: userDoc.data() as User,
+                user: userDoc.data(),
                 token: token,
             };
         } catch (err) {
@@ -78,9 +78,7 @@ export class UserService {
     }
 
     async getByUid(uid: string) {
-        const user = await this.usersCollection
-            .where('uid', '==', uid)
-            .get();
+        const user = await this.usersCollection.where('uid', '==', uid).get();
 
         if (user.docs.length === 0) {
             return null;

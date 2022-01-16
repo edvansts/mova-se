@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { CreateUserDto } from '../../interfaces/Dto';
+import { LoginUserDto } from '../../interfaces/Dto';
 import { User } from '../../models/User';
 
 import AxiosMain from './AxiosMain';
@@ -12,7 +12,7 @@ export const Requests = {
         getUsers: () => {
             return AxiosMain.get<AxiosResponse<User[]>>(`/users`);
         },
-        createUser: (data: CreateUserDto) => {
+        loginUser: (data: LoginUserDto) => {
             return AxiosMain.post<AxiosResponse<User>>(`/users`, { ...data });
         },
     },

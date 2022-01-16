@@ -1,6 +1,6 @@
 import { User } from '../models/User';
 
-export interface CreateUserDto {
+export interface LoginUserDto {
     user: User;
     token: string;
 }
