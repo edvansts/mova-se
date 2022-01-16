@@ -1,8 +1,7 @@
-import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import FirebaseServer from '../../../firebase/ServerApp';
 
-const db = FirebaseServer.getInstance();
+const db = FirebaseServer.getDbInstance();
 
 export default async (req: VercelRequest, res: VercelResponse) => {
     const { query } = req;

@@ -1,18 +1,19 @@
 import { getAuth, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 import FirebaseClient from '../firebase/ClientApp';
-import Firebase from '../firebase/ClientApp';
 
-const useGihubLogin = () => {
-    async function signIn() {
+const useLogin = () => {
+    async function githubSignIn() {
         const provider = new GithubAuthProvider();
         const auth = getAuth(FirebaseClient.getInstance());
 
         const result = await signInWithPopup(auth, provider);
 
+        // console.log(result);
+
         return result;
     }
 
-    return { signIn };
+    return { githubSignIn };
 };
 
-export default useGihubLogin;
+export default useLogin;

@@ -11,7 +11,9 @@ const serverCredentials = {
 
 class FirebaseServer {
     static _firestore: FirebaseFirestore.Firestore;
-    static getInstance(): admin.firestore.Firestore {
+    static _auth: admin.auth.Auth;
+
+    static getDbInstance(): FirebaseFirestore.Firestore {
         try {
             if (this._firestore) {
                 return this._firestore;
@@ -26,6 +28,24 @@ class FirebaseServer {
                 .firestore();
 
             return this._firestore;
+        }
+    }
+
+    static getAuthInstance(): admin.auth.Auth {
+        try {
+            if (this._auth) {
+                return this._auth;
+            }
+
+            this._auth = admin.app(serverInstanceName).auth();
+
+            return this._auth;
+        } catch (err) {
+            this._auth = admin
+                .initializeApp(serverCredentials, serverInstanceName)
+                .auth();
+
+            return this._auth;
         }
     }
 }

@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { FiGithub } from 'react-icons/fi';
 import { User } from '../models/User';
-import useGihubLogin from '../hooks/useGihubLogin';
 import useUser from '../hooks/useUser';
+import useLogin from '../hooks/useLogin';
 import Button from './Button';
 
 import styles from '../styles/components/LoginInput.module.css';
@@ -13,7 +13,7 @@ const LoginInput: React.FC = () => {
     const { t } = useTranslation('login');
     const router = useRouter();
 
-    const { signIn } = useGihubLogin();
+    const { githubSignIn } = useLogin();
 
     const { createUser } = useUser();
 
@@ -24,23 +24,28 @@ const LoginInput: React.FC = () => {
         setLoadingLogin(true);
 
         try {
-            const result = await signIn();
+            const result = await githubSignIn();
 
             if (result) {
-                const newUser = new User(
-                    result.user.uid,
-                    result.user.email,
-                    result.user.displayName,
-                    result.user.photoURL,
-                );
+                const newUser = new User({
+                    email: result.user.email,
+                    name: result.user.displayName,
+                    photoUrl: result.user.photoURL,
+                    uid: result.user.uid,
+                });
 
-                await createUser(newUser);
+                const tokenId = await result.user.getIdToken();
 
-                // router.push('/', undefined, { locale: router.locale });
+                const createUserResult = await createUser({
+                    user: newUser,
+                    token: tokenId,
+                });
+
+                console.log(result);
+                console.log(createUserResult);
             }
         } catch (err) {
-            console.log(err);
-            setLoginError(t('inputError.notFound'));
+            setLoginError(t('inputError.unexpected'));
         } finally {
             setLoadingLogin(false);
         }
@@ -72,7 +77,7 @@ const LoginInput: React.FC = () => {
                 {<FiGithub color="currentColor" size="1rem" />}
                 {t('githubButton')}
             </Button>
-            <p>{loginError}</p>
+            <p className="text-error">{loginError}</p>
         </div>
     );
 
