@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    flex: 1;
+    align-items: center;
+}
+
+.container.centered {
+    justify-content: center;
+}
+
+.loader {
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

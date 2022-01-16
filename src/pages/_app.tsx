@@ -1,9 +1,14 @@
+import { QueryClient, QueryClientProvider } from 'react-query';
 import '../styles/global.css';
 
-// import 'firebase/auth';
-function MyApp({ Component, pageProps }) {
+const queryClient = new QueryClient();
 
-    return <Component {...pageProps} />;
+function MyApp({ Component, pageProps }) {
+    return (
+        <QueryClientProvider client={queryClient}>
+            <Component {...pageProps} />
+        </QueryClientProvider>
+    );
 }
 
 export default MyApp;

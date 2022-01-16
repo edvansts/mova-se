@@ -7,5 +7,6 @@
         "required": "Esse campo não pode ser deixado em branco",
         "notSpaces": "Esse campo não deve conter espaços",
         "notFound": "Usuário não encontrado"
-    }
+    },
+    "githubButton": "Entre com o Github"
 }

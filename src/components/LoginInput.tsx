@@ -1,108 +1,112 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
-
 import useTranslation from 'next-translate/useTranslation';
-import Cookies from 'js-cookie';
-
-import { FiArrowRight } from 'react-icons/fi';
-import useFetch from '../helpers/useFetch';
-import { githubApi } from '../static/constants';
+import { FiGithub } from 'react-icons/fi';
+import { User } from '../models/User';
+import useGihubLogin from '../hooks/useGihubLogin';
+import useUser from '../hooks/useUser';
+import Button from './Button';
 
 import styles from '../styles/components/LoginInput.module.css';
-export interface User {
-    name: string;
-    login: string;
-    avatarUrl: string;
-}
 
 const LoginInput: React.FC = () => {
     const { t } = useTranslation('login');
     const router = useRouter();
 
-    const [username, setUsername] = useState('');
-    const [loadingUsername, setLoadingUsername] = useState(false);
-    const [errorSubmit, setErrorSubmit] = useState('');
+    const { signIn } = useGihubLogin();
 
-    async function handleSubmitForm(data: FormEvent<HTMLFormElement>) {
-        data.preventDefault();
-        setLoadingUsername(true);
+    const { createUser } = useUser();
+
+    const [loadingLogin, setLoadingLogin] = useState(false);
+    const [loginError, setLoginError] = useState('');
+
+    async function handleSignInGithub() {
+        setLoadingLogin(true);
+
         try {
-            const response = await useFetch(
-                'GET',
-                `${githubApi}/users/${username}`,
-            );
+            const result = await signIn();
 
-            if (response.ok) {
-                const responseJson = await response.json();
+            if (result) {
+                const newUser = new User(
+                    result.user.uid,
+                    result.user.email,
+                    result.user.displayName,
+                    result.user.photoURL,
+                );
 
-                const user: User = {
-                    name: responseJson.name,
-                    login: responseJson.login,
-                    avatarUrl: responseJson.avatar_url,
-                };
+                await createUser(newUser);
 
-                Cookies.set('user', user);
-                Cookies.set('level', String(0));
-                Cookies.set('currentExperience', String(0));
-                Cookies.set('challengesCompleted', String(0));
-                router.push('/', '/', { locale: router.locale });
-            } else {
-                setErrorSubmit(t('inputError.notFound'));
+                // router.push('/', undefined, { locale: router.locale });
             }
         } catch (err) {
-            setErrorSubmit(t('inputError.notFound'));
+            console.log(err);
+            setLoginError(t('inputError.notFound'));
+        } finally {
+            setLoadingLogin(false);
         }
-
-        setLoadingUsername(false);
     }
 
-    function handleChangeUsername(event: ChangeEvent<HTMLInputElement>) {
-        const newUsername = event.target.value;
+    // function handleChangeUsername(event: ChangeEvent<HTMLInputElement>) {
+    //     const newUsername = event.target.value;
 
-        setUsername(newUsername);
-    }
+    //     setUsername(newUsername);
+    // }
 
-    function handleInputError(event: FormEvent<HTMLInputElement>) {
-        const field = event.currentTarget;
+    // function handleInputError(event: FormEvent<HTMLInputElement>) {
+    //     const field = event.currentTarget;
 
-        if (!field.value)
-            return field.setCustomValidity(t('inputError.required'));
+    //     if (!field.value)
+    //         return field.setCustomValidity(t('inputError.required'));
 
-        // if (field.value.includes(' '))
-        //     return field.setCustomValidity(t('inputError.notSpaces'));
-    }
+    //     // if (field.value.includes(' '))
+    //     //     return field.setCustomValidity(t('inputError.notSpaces'));
+    // }
 
     return (
-        <form className={styles.formContainer} onSubmit={handleSubmitForm}>
-            <div>
-                <input
-                    autoFocus
-                    type="text"
-                    id="username"
-                    required
-                    placeholder={t('usernamePlaceholder')}
-                    onChange={handleChangeUsername}
-                    value={username}
-                    onInvalid={handleInputError}
-                    pattern="^[a-zA-Z0-9]*$"
-                    onInput={event => event.currentTarget.setCustomValidity('')}
-                    title={t('inputError.notSpaces')}
-                />
-                <button
-                    className={`${username ? styles.haveUsername : ''}`}
-                    type="submit"
-                    disabled={loadingUsername}
-                >
-                    {loadingUsername ? (
-                        <div className={styles.loader} />
-                    ) : (
-                        <FiArrowRight color="currentColor" size="2rem" />
-                    )}
-                </button>
-            </div>
-            <label htmlFor="username">{errorSubmit}</label>
-        </form>
+        <div className={styles.signInContainer}>
+            <Button
+                className={styles.githubButton}
+                onClick={handleSignInGithub}
+                loading={loadingLogin}
+            >
+                {<FiGithub color="currentColor" size="1rem" />}
+                {t('githubButton')}
+            </Button>
+            <p>{loginError}</p>
+        </div>
     );
+
+    // return (
+    //     <form className={styles.formContainer} onSubmit={handleSubmitForm}>
+    //         <div>
+    //             <input
+    //                 autoFocus
+    //                 type="text"
+    //                 name="username"
+    //                 required
+    //                 placeholder={t('usernamePlaceholder')}
+    //                 onChange={handleChangeUsername}
+    //                 value={username}
+    //                 onInvalid={handleInputError}
+    //                 pattern="^[a-zA-Z0-9]*$"
+    //                 onInput={event => event.currentTarget.setCustomValidity('')}
+    //                 title={t('inputError.notSpaces')}
+    //             />
+    //             <button
+    //                 className={`${username ? styles.haveUsername : ''}`}
+    //                 type="submit"
+    //                 disabled={loadingUsername}
+    //             >
+    //                 {loadingUsername ? (
+    //                     <div className={styles.loader} />
+    //                 ) : (
+    //                     <FiArrowRight color="currentColor" size="2rem" />
+    //                 )}
+    //             </button>
+    //         </div>
+    //         <label htmlFor="username">{errorSubmit}</label>
+    //     </form>
+    // );
 };
 
 export default LoginInput;
