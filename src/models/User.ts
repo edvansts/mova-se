@@ -5,6 +5,7 @@ export interface IUser {
     email: string;
     name: string;
     photoUrl: string;
+    nickname: string;
     id?: string;
     createdTime?: string;
     updateTime?: string;
@@ -15,6 +16,7 @@ export class User {
     uid: string;
     email: string;
     name: string;
+    nickname: string;
     photoUrl: string;
     createdTime: string;
     updateTime: string;
@@ -25,6 +27,7 @@ export class User {
         this.email = user.email;
         this.name = user.name;
         this.photoUrl = user.photoUrl;
+        this.nickname = user.nickname;
         this.createdTime = user.createdTime;
         this.updateTime = user.updateTime;
     }
@@ -38,6 +41,7 @@ export class User {
             photoUrl: this.photoUrl,
             createdTime: this.createdTime,
             updateTime: this.updateTime,
+            nickname: this.nickname,
         };
 
         return removeUndefinedFromObj(obj);
@@ -59,6 +63,7 @@ export class User {
             photoUrl: data.photoUrl,
             createdTime: snapshot.createTime.toDate().toISOString(),
             updateTime: snapshot.updateTime.toDate().toISOString(),
+            nickname: data.nickname,
         });
     }
 

@@ -26,12 +26,15 @@ const LoginInput: React.FC = () => {
         try {
             const result = await githubSignIn();
 
+            console.log(result.user);
+
             if (result) {
                 const newUser = new User({
                     email: result.user.email,
                     name: result.user.displayName,
                     photoUrl: result.user.photoURL,
                     uid: result.user.uid,
+                    nickname: result.user['reloadUserInfo']?.screenName,
                 });
 
                 const tokenId = await result.user.getIdToken();
