@@ -1,23 +1,22 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { LoginUserDto } from '../interfaces/Dto';
+import { ReqLoginUserDto } from '../interfaces/Dto';
 import { Requests } from '../services/client/Requests';
 
 const useUser = () => {
     const queryClient = useQueryClient();
 
-    const {
-        mutateAsync,
-        isLoading,
-        data: response,
-    } = useMutation((data: LoginUserDto) => Requests.user.loginUser(data), {
-        onSuccess: () => {
-            // Invalidate and refetch
-            queryClient.invalidateQueries('users');
+    const { mutateAsync, isLoading } = useMutation(
+        (data: ReqLoginUserDto) => Requests.user.loginUser(data),
+        {
+            onSuccess: () => {
+                // Invalidate and refetch
+                queryClient.invalidateQueries('users');
+            },
         },
-    });
+    );
 
-    async function createUser(data: LoginUserDto) {
-        await mutateAsync(data);
+    async function createUser(data: ReqLoginUserDto) {
+        const response = await mutateAsync(data);
 
         return response;
     }

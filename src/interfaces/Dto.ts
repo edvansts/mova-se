@@ -1,6 +1,11 @@
 import { User } from '../models/User';
 
-export interface LoginUserDto {
+export interface ReqLoginUserDto {
+    user: User;
+    token: string;
+}
+
+export interface ResLoginUserDto {
     user: User;
     token: string;
 }

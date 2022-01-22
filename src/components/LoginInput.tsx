@@ -1,3 +1,5 @@
+import styles from '../styles/components/LoginInput.module.css';
+
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
@@ -6,8 +8,7 @@ import { User } from '../models/User';
 import useUser from '../hooks/useUser';
 import useLogin from '../hooks/useLogin';
 import Button from './Button';
-
-import styles from '../styles/components/LoginInput.module.css';
+import CookieAdapter from '../infra/CookieAdapter';
 
 const LoginInput: React.FC = () => {
     const { t } = useTranslation('login');
@@ -26,8 +27,6 @@ const LoginInput: React.FC = () => {
         try {
             const result = await githubSignIn();
 
-            console.log(result.user);
-
             if (result) {
                 const newUser = new User({
                     email: result.user.email,
@@ -44,6 +43,9 @@ const LoginInput: React.FC = () => {
                     token: tokenId,
                 });
 
+                CookieAdapter.set('user', createUserResult.data.user);
+                CookieAdapter.set('token', createUserResult.data.token);
+
                 router.push('/');
             }
         } catch (err) {
@@ -52,22 +54,6 @@ const LoginInput: React.FC = () => {
             setLoadingLogin(false);
         }
     }
-
-    // function handleChangeUsername(event: ChangeEvent<HTMLInputElement>) {
-    //     const newUsername = event.target.value;
-
-    //     setUsername(newUsername);
-    // }
-
-    // function handleInputError(event: FormEvent<HTMLInputElement>) {
-    //     const field = event.currentTarget;
-
-    //     if (!field.value)
-    //         return field.setCustomValidity(t('inputError.required'));
-
-    //     // if (field.value.includes(' '))
-    //     //     return field.setCustomValidity(t('inputError.notSpaces'));
-    // }
 
     return (
         <div className={styles.signInContainer}>
