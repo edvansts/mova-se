@@ -36,15 +36,14 @@ const LoginInput: React.FC = () => {
                     nickname: result.user['reloadUserInfo']?.screenName,
                 });
 
-                const tokenId = await result.user.getIdToken();
+                const token = await result.user.getIdToken();
 
-                const createUserResult = await createUser({
-                    user: newUser,
-                    token: tokenId,
-                });
-
-                CookieAdapter.set('user', createUserResult.data.user);
-                CookieAdapter.set('token', createUserResult.data.token);
+                await createUser(
+                    {
+                        user: newUser,
+                    },
+                    token,
+                );
 
                 router.push('/');
             }

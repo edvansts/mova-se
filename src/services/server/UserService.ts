@@ -1,6 +1,7 @@
 import FirebaseServer from '../../firebase/ServerApp';
 import { User } from '../../models/User';
 import admin from 'firebase-admin';
+import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 
 export class UserService {
     dbInstance: FirebaseFirestore.Firestore;
@@ -16,21 +17,15 @@ export class UserService {
             .withConverter(User.getConverter());
     }
 
-    async login(user: User, token: string) {
+    async signUp(user: User, tokenData: DecodedIdToken) {
         try {
-            const tokenDecoded = await this.validateIdToken(token);
-
-            if (!tokenDecoded) {
-                return new Error('Token inválido');
-            }
-
-            const userAlreadyExists = !!(await this.getByEmail(user.email));
+            const userAlreadyExists = await this.getByEmail(user.email);
 
             if (!userAlreadyExists) {
-                return await this.create(user, token);
+                return await this.create(user);
             }
 
-            const userDoc = await this.getByUid(tokenDecoded.uid);
+            const userDoc = await this.getByUid(tokenData.uid);
 
             if (!userDoc) {
                 throw new Error('Usuário não encontrado');
@@ -38,27 +33,41 @@ export class UserService {
 
             return {
                 user: userDoc.data(),
-                token: token,
             };
         } catch (err) {
             throw err;
         }
     }
 
-    async create(user: User, token: string) {
+    async signIn(tokenData: DecodedIdToken) {
         try {
-            const tokenDecoded = await this.validateIdToken(token);
+            const userAlreadyExists = await this.getByEmail(tokenData.email);
 
-            if (!tokenDecoded) {
-                return new Error('Token inválido');
+            if (!userAlreadyExists) {
+                throw new Error('Usuário não existe');
             }
 
+            const userDoc = await this.getByUid(tokenData.uid);
+
+            if (!userDoc) {
+                throw new Error('Usuário não encontrado');
+            }
+
+            return {
+                user: userDoc.data(),
+            };
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    async create(user: User) {
+        try {
             const userRef = await this.usersCollection.add(user);
             const userDoc = await userRef.get();
 
             return {
                 user: userDoc.data() as User,
-                token: token,
             };
         } catch (err) {
             throw err;

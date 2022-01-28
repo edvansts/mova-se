@@ -22,7 +22,7 @@ interface ChallengesContextState {
     failedChallenge: () => void;
     successfullyChallenge: () => void;
     closeLevelUpModal: () => void;
-    setUser: (value: User) => void;
+    // setUser: (value: User) => void;
 }
 
 interface Challenge {
@@ -33,9 +33,9 @@ interface Challenge {
 
 interface ChallengesProviderProps {
     children: ReactNode;
-    level: number;
-    currentExperience: number;
-    challengesCompleted: number;
+    // level: number;
+    // currentExperience: number;
+    // challengesCompleted: number;
     user: User;
 }
 
@@ -43,20 +43,14 @@ export const ChallengesContext = createContext({} as ChallengesContextState);
 
 const ChallengeProvider: React.FC<ChallengesProviderProps> = ({
     children,
-    ...rest
+    user,
 }) => {
-    const [level, setLevel] = useState(rest.level ?? 0);
-    const [currentExperience, setCurrentExperience] = useState(
-        rest.currentExperience ?? 0,
-    );
+    const [level, setLevel] = useState(0);
+    const [currentExperience, setCurrentExperience] = useState(0);
     const [currentChallenge, setCurrentChallenge] =
         useState<Challenge | null>();
-    const [challengesCompleted, setChallengesCompleted] = useState(
-        rest.challengesCompleted ?? 0,
-    );
+    const [challengesCompleted, setChallengesCompleted] = useState(0);
     const [isModalLevelUpOpened, setIsLevelUpModalOpened] = useState(false);
-
-    const [user, setUser] = useState<User | null>(rest.user);
 
     const currentLevelExperience = Math.pow(level * 4, 2);
     const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
@@ -135,7 +129,6 @@ const ChallengeProvider: React.FC<ChallengesProviderProps> = ({
         failedChallenge,
         successfullyChallenge,
         closeLevelUpModal,
-        setUser,
     };
 
     return (

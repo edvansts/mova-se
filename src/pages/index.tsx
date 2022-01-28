@@ -9,34 +9,35 @@ import Countdown from '../components/Countdown';
 import useTranslation from 'next-translate/useTranslation';
 import SEO from '../components/SEO';
 import favicon from '/public/favicon.png';
-import { User } from '../models/User';
+import CookieAdapter from '../infra/CookieAdapter';
 
 import styles from '../styles/pages/Home.module.css';
+import useUser from '../hooks/useUser';
+import Loader from '../components/Loader';
+import { useEffect } from 'react';
 
 interface Props {
-    user: User;
-    level: number;
-    currentExperience: number;
-    challengesCompleted: number;
+    token: string;
     randomTextShow: number;
 }
 
-export default function Home({
-    user,
-    challengesCompleted,
-    currentExperience,
-    level,
-    randomTextShow,
-}: Props) {
+export default function Home({ randomTextShow, token }: Props) {
     const { t } = useTranslation();
 
+    const { user, loginUser, isLoadingLoginUser } = useUser();
+
+    useEffect(() => {
+        if (!user) {
+            loginUser(token);
+        }
+    }, []);
+
+    if (!user || isLoadingLoginUser) {
+        return <Loader size="3rem" position="center" />;
+    }
+
     return (
-        <ChallengesProvider
-            level={level}
-            currentExperience={currentExperience}
-            challengesCompleted={challengesCompleted}
-            user={user}
-        >
+        <ChallengesProvider user={user}>
             <div className={styles.container}>
                 <SEO title={t('home:title')} image={favicon.src} />
 
@@ -59,30 +60,17 @@ export default function Home({
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-    const { level, currentExperience, challengesCompleted, user } =
-        context.req.cookies;
+    const token = context.req.cookies[CookieAdapter.getKey('token')];
 
     const randomTextShow = Math.ceil(Math.random() * 2);
 
-    if (!user) {
-        return {
-            props: {},
-            redirect: {
-                destination: `${
-                    context.locale != context.defaultLocale
-                        ? `/${context.locale}`
-                        : ''
-                }/login`,
-            },
-        };
+    if (!token) {
+        return { redirect: { destination: '/login', permanent: true } };
     }
 
     const props: Props = {
-        level: Number(level) || 0,
-        currentExperience: Number(currentExperience) || 0,
-        challengesCompleted: Number(challengesCompleted) || 0,
-        randomTextShow: randomTextShow,
-        user: JSON.parse(user) as User,
+        token,
+        randomTextShow,
     };
 
     return {

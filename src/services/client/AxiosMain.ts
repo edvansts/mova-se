@@ -1,7 +1,11 @@
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 
 const AxiosMain = axios.create({
     baseURL: '/api',
 });
+
+export function setToken(token: string) {
+    AxiosMain.defaults.headers.common['Authorization'] = token;
+}
 
 export default AxiosMain;
