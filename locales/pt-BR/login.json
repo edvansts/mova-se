@@ -6,6 +6,8 @@
     "inputError": {
         "required": "Esse campo não pode ser deixado em branco",
         "notSpaces": "Esse campo não deve conter espaços",
-        "notFound": "Usuário não encontrado"
-    }
+        "notFound": "Usuário não encontrado",
+        "unexpected": "Não foi possível realizar o login"
+    },
+    "githubButton": "Entre com o Github"
 }

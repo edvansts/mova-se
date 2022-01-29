@@ -1,20 +1,26 @@
-import Head from 'next/head';
 import Image from 'next/image';
 import { GetServerSideProps } from 'next';
-
-import useTranslation from 'next-translate/useTranslation';
-
 import LoginInput from '../components/LoginInput';
+import useTranslation from 'next-translate/useTranslation';
+import SEO from '../components/SEO';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import favicon from '/public/favicon.png';
 
 import styles from '../styles/pages/Login.module.css';
-import SEO from '../components/SEO';
 
 export default function Login() {
     const { t } = useTranslation('');
 
+    const router = useRouter();
+
+    useEffect(() => {
+        router.prefetch('/');
+    }, []);
+
     return (
         <div className={styles.loginContainer}>
-            <SEO title={t('login:title')} image='favicon.png' />
+            <SEO title={t('login:title')} image={favicon.src} />
 
             <div className={styles.loginContent}>
                 <div className={styles.logoImg}>

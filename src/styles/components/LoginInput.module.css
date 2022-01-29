@@ -80,6 +80,31 @@
     animation: spin 0.5s linear infinite;
 }
 
+.signInContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.githubButton {
+    display: flex;
+    align-items: center;
+    padding: 0.625rem 1.25rem;
+    background-color: var(--title);
+    gap: 0.625rem;
+    width: 100%;
+    height: 4rem;
+
+    border-radius: 5px;
+    border: 0;
+    color: var(--white);
+    transition: filter 0.2s;
+}
+
+.signInContainer > button:hover {
+    filter: brightness(0.9);
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);

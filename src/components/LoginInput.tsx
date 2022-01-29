@@ -1,108 +1,104 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
-import { useRouter } from 'next/router';
-
-import useTranslation from 'next-translate/useTranslation';
-import Cookies from 'js-cookie';
-
-import { FiArrowRight } from 'react-icons/fi';
-import useFetch from '../helpers/useFetch';
-import { githubApi } from '../static/constants';
-
 import styles from '../styles/components/LoginInput.module.css';
-export interface User {
-    name: string;
-    login: string;
-    avatarUrl: string;
-}
+
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import useTranslation from 'next-translate/useTranslation';
+import { FiGithub } from 'react-icons/fi';
+import { User } from '../models/User';
+import useUser from '../hooks/useUser';
+import useLogin from '../hooks/useLogin';
+import Button from './Button';
+import CookieAdapter from '../infra/CookieAdapter';
 
 const LoginInput: React.FC = () => {
     const { t } = useTranslation('login');
     const router = useRouter();
 
-    const [username, setUsername] = useState('');
-    const [loadingUsername, setLoadingUsername] = useState(false);
-    const [errorSubmit, setErrorSubmit] = useState('');
+    const { githubSignIn } = useLogin();
 
-    async function handleSubmitForm(data: FormEvent<HTMLFormElement>) {
-        data.preventDefault();
-        setLoadingUsername(true);
+    const { createUser } = useUser();
+
+    const [loadingLogin, setLoadingLogin] = useState(false);
+    const [loginError, setLoginError] = useState('');
+
+    async function handleSignInGithub() {
+        setLoadingLogin(true);
+
         try {
-            const response = await useFetch(
-                'GET',
-                `${githubApi}/users/${username}`,
-            );
+            const result = await githubSignIn();
 
-            if (response.ok) {
-                const responseJson = await response.json();
+            if (result) {
+                const newUser = new User({
+                    email: result.user.email,
+                    name: result.user.displayName,
+                    photoUrl: result.user.photoURL,
+                    uid: result.user.uid,
+                    nickname: result.user['reloadUserInfo']?.screenName,
+                });
 
-                const user: User = {
-                    name: responseJson.name,
-                    login: responseJson.login,
-                    avatarUrl: responseJson.avatar_url,
-                };
+                const token = await result.user.getIdToken();
 
-                Cookies.set('user', user);
-                Cookies.set('level', String(0));
-                Cookies.set('currentExperience', String(0));
-                Cookies.set('challengesCompleted', String(0));
-                router.push('/', '/', { locale: router.locale });
-            } else {
-                setErrorSubmit(t('inputError.notFound'));
+                await createUser(
+                    {
+                        user: newUser,
+                    },
+                    token,
+                );
+
+                router.push('/');
             }
         } catch (err) {
-            setErrorSubmit(t('inputError.notFound'));
+            setLoginError(t('inputError.unexpected'));
+        } finally {
+            setLoadingLogin(false);
         }
-
-        setLoadingUsername(false);
-    }
-
-    function handleChangeUsername(event: ChangeEvent<HTMLInputElement>) {
-        const newUsername = event.target.value;
-
-        setUsername(newUsername);
-    }
-
-    function handleInputError(event: FormEvent<HTMLInputElement>) {
-        const field = event.currentTarget;
-
-        if (!field.value)
-            return field.setCustomValidity(t('inputError.required'));
-
-        // if (field.value.includes(' '))
-        //     return field.setCustomValidity(t('inputError.notSpaces'));
     }
 
     return (
-        <form className={styles.formContainer} onSubmit={handleSubmitForm}>
-            <div>
-                <input
-                    autoFocus
-                    type="text"
-                    id="username"
-                    required
-                    placeholder={t('usernamePlaceholder')}
-                    onChange={handleChangeUsername}
-                    value={username}
-                    onInvalid={handleInputError}
-                    pattern="^[a-zA-Z0-9]*$"
-                    onInput={event => event.currentTarget.setCustomValidity('')}
-                    title={t('inputError.notSpaces')}
-                />
-                <button
-                    className={`${username ? styles.haveUsername : ''}`}
-                    type="submit"
-                    disabled={loadingUsername}
-                >
-                    {loadingUsername ? (
-                        <div className={styles.loader} />
-                    ) : (
-                        <FiArrowRight color="currentColor" size="2rem" />
-                    )}
-                </button>
-            </div>
-            <label htmlFor="username">{errorSubmit}</label>
-        </form>
+        <div className={styles.signInContainer}>
+            <Button
+                className={styles.githubButton}
+                onClick={handleSignInGithub}
+                loading={loadingLogin}
+            >
+                {<FiGithub color="currentColor" size="1rem" />}
+                {t('githubButton')}
+            </Button>
+            <p className="text-error">{loginError}</p>
+        </div>
     );
+
+    // return (
+    //     <form className={styles.formContainer} onSubmit={handleSubmitForm}>
+    //         <div>
+    //             <input
+    //                 autoFocus
+    //                 type="text"
+    //                 name="username"
+    //                 required
+    //                 placeholder={t('usernamePlaceholder')}
+    //                 onChange={handleChangeUsername}
+    //                 value={username}
+    //                 onInvalid={handleInputError}
+    //                 pattern="^[a-zA-Z0-9]*$"
+    //                 onInput={event => event.currentTarget.setCustomValidity('')}
+    //                 title={t('inputError.notSpaces')}
+    //             />
+    //             <button
+    //                 className={`${username ? styles.haveUsername : ''}`}
+    //                 type="submit"
+    //                 disabled={loadingUsername}
+    //             >
+    //                 {loadingUsername ? (
+    //                     <div className={styles.loader} />
+    //                 ) : (
+    //                     <FiArrowRight color="currentColor" size="2rem" />
+    //                 )}
+    //             </button>
+    //         </div>
+    //         <label htmlFor="username">{errorSubmit}</label>
+    //     </form>
+    // );
 };
 
 export default LoginInput;

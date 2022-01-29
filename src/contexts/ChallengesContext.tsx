@@ -1,9 +1,15 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-
+import { User } from '../models/User';
 import { useRouter } from 'next/router';
-
 import LevelUpModal from '../components/LevelUpModal';
+
+export interface UserAll extends User {
+    challengesCompleted: number;
+    currentXp: number;
+    level: number;
+}
+
 interface ChallengesContextState {
     level: number;
     currentExperience: number;
@@ -16,7 +22,7 @@ interface ChallengesContextState {
     failedChallenge: () => void;
     successfullyChallenge: () => void;
     closeLevelUpModal: () => void;
-    setUser: (value: User) => void;
+    // setUser: (value: User) => void;
 }
 
 interface Challenge {
@@ -25,17 +31,11 @@ interface Challenge {
     amount: number;
 }
 
-export interface User {
-    name: string;
-    login: string;
-    avatarUrl: string;
-}
-
 interface ChallengesProviderProps {
     children: ReactNode;
-    level: number;
-    currentExperience: number;
-    challengesCompleted: number;
+    // level: number;
+    // currentExperience: number;
+    // challengesCompleted: number;
     user: User;
 }
 
@@ -43,22 +43,14 @@ export const ChallengesContext = createContext({} as ChallengesContextState);
 
 const ChallengeProvider: React.FC<ChallengesProviderProps> = ({
     children,
-    ...rest
+    user,
 }) => {
-    const [level, setLevel] = useState(rest.level ?? 0);
-    const [currentExperience, setCurrentExperience] = useState(
-        rest.currentExperience ?? 0,
-    );
-    const [
-        currentChallenge,
-        setCurrentChallenge,
-    ] = useState<Challenge | null>();
-    const [challengesCompleted, setChallengesCompleted] = useState(
-        rest.challengesCompleted ?? 0,
-    );
+    const [level, setLevel] = useState(0);
+    const [currentExperience, setCurrentExperience] = useState(0);
+    const [currentChallenge, setCurrentChallenge] =
+        useState<Challenge | null>();
+    const [challengesCompleted, setChallengesCompleted] = useState(0);
     const [isModalLevelUpOpened, setIsLevelUpModalOpened] = useState(false);
-
-    const [user, setUser] = useState<User | null>(rest.user);
 
     const currentLevelExperience = Math.pow(level * 4, 2);
     const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
@@ -95,7 +87,8 @@ const ChallengeProvider: React.FC<ChallengesProviderProps> = ({
     }
 
     function startNewChallenge() {
-        const challenges = require(`../../locales/${locale}/challenges.json`) as Array<Challenge>;  
+        const challenges =
+            require(`../../locales/${locale}/challenges.json`) as Array<Challenge>;
 
         const randomChallengeIndex = Math.floor(
             Math.random() * challenges.length,
@@ -136,7 +129,6 @@ const ChallengeProvider: React.FC<ChallengesProviderProps> = ({
         failedChallenge,
         successfullyChallenge,
         closeLevelUpModal,
-        setUser,
     };
 
     return (

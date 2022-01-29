@@ -12,9 +12,9 @@ const Profile: React.FC = () => {
 
     return (
         <div className={styles.profileContainer}>
-            <img src={user.avatarUrl} alt={user.name || user.login} />
+            <img src={user.photoUrl} alt={user.name || user.nickname} />
             <div>
-                <strong>{user.name || user.login}</strong>
+                <strong>{user.name || user.nickname}</strong>
                 <p>
                     <img src="icons/level.svg" alt="Level" />
                     {t('common:level')} {level}

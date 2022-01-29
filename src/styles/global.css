@@ -16,14 +16,14 @@
     --title: #2e384d;
 
     --red: #e83f5b;
-    --red-light: #FFF5F5;
+    --red-light: #fff5f5;
 
     --green: #4cd62b;
-    --green-light: #F7FFF5;
-    --green-dark: #3FB023;
+    --green-light: #f7fff5;
+    --green-dark: #3fb023;
 
     --blue: #5965e0;
-    --blue-light: #F5FCFF;
+    --blue-light: #f5fcff;
     --blue-dark: #4953b8;
     --blue-twitter: #2aa9e0;
 }
@@ -65,4 +65,8 @@ button {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+.text-error {
+    color: var(--red-light);
 }
