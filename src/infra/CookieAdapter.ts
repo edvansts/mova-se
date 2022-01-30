@@ -1,17 +1,13 @@
 import Cookies from 'js-cookie';
-import { isNullOrUndefined } from 'util';
 
 const defaultKey = 'move-it_';
-
 class CookieAdapter {
     static get<T = string>(key: string): T | null {
-        const value: string | undefined = Cookies.get(`${defaultKey}${key}`);
+        const value: T | undefined = Cookies.getJSON(`${defaultKey}${key}`);
 
         if (value === undefined) return null;
 
-        const parsedValue: T = JSON.parse(value);
-
-        return parsedValue;
+        return value;
     }
 
     static getKey(key: string): string {

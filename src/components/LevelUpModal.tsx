@@ -1,16 +1,15 @@
-import React, { useContext } from 'react';
-
 import styles from '../styles/components/LevelUpModal.module.css';
 
+import React from 'react';
+import useChallengesContext from '../hooks/useChallengesContext';
 import { FiTwitter } from 'react-icons/fi';
-import { ChallengesContext } from '../contexts/ChallengesContext';
-
 import useTranslation from 'next-translate/useTranslation';
+
 
 const LevelUpModal: React.FC = () => {
     const { t } = useTranslation('home');
 
-    const { level, closeLevelUpModal } = useContext(ChallengesContext);
+    const { level, closeLevelUpModal } = useChallengesContext();
 
     return (
         <div className={styles.overlay} onClick={closeLevelUpModal}>

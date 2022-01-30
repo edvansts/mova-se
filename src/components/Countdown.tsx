@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import { FiPlay, FiX, FiCheckCircle } from 'react-icons/fi';
-import { CountdownContext } from '../contexts/CountdownContext';
-import useTranslation from 'next-translate/useTranslation';
-
 import styles from '../styles/components/Countdown.module.css';
+
+import React from 'react';
+import useCountdownContext from '../hooks/useCountdownContext';
+import { FiPlay, FiX, FiCheckCircle } from 'react-icons/fi';
+import useTranslation from 'next-translate/useTranslation';
 
 const Countdown: React.FC = () => {
     const { t } = useTranslation('home');
@@ -16,7 +16,7 @@ const Countdown: React.FC = () => {
         startCountdown,
         resetCountdown,
         percentageToEndCountdown,
-    } = useContext(CountdownContext);
+    } = useCountdownContext();
 
     const [minuteLeft, minuteRight] = String(minutes)
         .padStart(2, '0')

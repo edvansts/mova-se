@@ -1,17 +1,14 @@
-import React, { useContext } from 'react';
-import { ChallengesContext } from '../contexts/ChallengesContext';
-import useTranslation from 'next-translate/useTranslation';
-
 import styles from '../styles/components/ExperienceBar.module.css';
+
+import React from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import useChallengesContext from '../hooks/useChallengesContext';
 
 const ExperienceBar: React.FC = () => {
     const { t } = useTranslation();
 
-    const {
-        currentExperience,
-        experienceToNextLevel,
-        currentLevelExperience,
-    } = useContext(ChallengesContext);
+    const { currentExperience, experienceToNextLevel, currentLevelExperience } =
+        useChallengesContext();
 
     const percentageToNextLevel = Math.round(
         ((currentExperience - currentLevelExperience) * 100) /

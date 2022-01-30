@@ -1,3 +1,6 @@
+import styles from '../styles/pages/Home.module.css';
+
+import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import CountdownProvider from '../contexts/CountdownContext';
 import ChallengesProvider from '../contexts/ChallengesContext';
@@ -9,31 +12,32 @@ import Countdown from '../components/Countdown';
 import useTranslation from 'next-translate/useTranslation';
 import SEO from '../components/SEO';
 import favicon from '/public/favicon.png';
-import CookieAdapter from '../infra/CookieAdapter';
-
-import styles from '../styles/pages/Home.module.css';
-import useUser from '../hooks/useUser';
 import Loader from '../components/Loader';
-import { useEffect } from 'react';
+import CookieAdapter from '../infra/CookieAdapter';
+import useUserContext from '../hooks/useUserContext';
 
 interface Props {
-    token: string;
+    tokenCookies: string;
     randomTextShow: number;
 }
 
-export default function Home({ randomTextShow, token }: Props) {
+export default function Home({ randomTextShow, tokenCookies }: Props) {
     const { t } = useTranslation();
 
-    const { user, loginUser, isLoadingLoginUser } = useUser();
+    const { user, loginUser, isLoadingLoginUser } = useUserContext();
 
     useEffect(() => {
         if (!user) {
-            loginUser(token);
+            loginUser(tokenCookies);
         }
     }, []);
 
     if (!user || isLoadingLoginUser) {
-        return <Loader size="3rem" position="center" />;
+        return (
+            <div className={styles.container}>
+                <Loader size="3rem" position="center" />
+            </div>
+        );
     }
 
     return (
@@ -69,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
     }
 
     const props: Props = {
-        token,
+        tokenCookies: token,
         randomTextShow,
     };
 

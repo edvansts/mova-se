@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { UserProvider } from '../contexts/UserContext';
 import '../styles/global.css';
 
 const queryClient = new QueryClient();
@@ -6,7 +7,9 @@ const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }) {
     return (
         <QueryClientProvider client={queryClient}>
-            <Component {...pageProps} />
+            <UserProvider>
+                <Component {...pageProps} />
+            </UserProvider>
         </QueryClientProvider>
     );
 }

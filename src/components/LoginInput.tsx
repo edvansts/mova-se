@@ -5,18 +5,18 @@ import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { FiGithub } from 'react-icons/fi';
 import { User } from '../models/User';
-import useUser from '../hooks/useUser';
-import useLogin from '../hooks/useLogin';
+import userProvider from '../hooks/useProvider';
 import Button from './Button';
-import CookieAdapter from '../infra/CookieAdapter';
+import useUserContext from '../hooks/useUserContext';
 
 const LoginInput: React.FC = () => {
     const { t } = useTranslation('login');
+
     const router = useRouter();
 
-    const { githubSignIn } = useLogin();
+    const { githubSignIn } = userProvider();
 
-    const { createUser } = useUser();
+    const { createUser } = useUserContext();
 
     const [loadingLogin, setLoadingLogin] = useState(false);
     const [loginError, setLoginError] = useState('');
@@ -28,23 +28,6 @@ const LoginInput: React.FC = () => {
             const result = await githubSignIn();
 
             if (result) {
-                const newUser = new User({
-                    email: result.user.email,
-                    name: result.user.displayName,
-                    photoUrl: result.user.photoURL,
-                    uid: result.user.uid,
-                    nickname: result.user['reloadUserInfo']?.screenName,
-                });
-
-                const token = await result.user.getIdToken();
-
-                await createUser(
-                    {
-                        user: newUser,
-                    },
-                    token,
-                );
-
                 router.push('/');
             }
         } catch (err) {

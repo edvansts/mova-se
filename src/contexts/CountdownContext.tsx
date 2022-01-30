@@ -1,11 +1,5 @@
-import React, {
-    createContext,
-    ReactNode,
-    useContext,
-    useEffect,
-    useState,
-} from 'react';
-import { ChallengesContext } from './ChallengesContext';
+import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import useChallengesContext from '../hooks/useChallengesContext';
 
 interface CountdownContextState {
     minutes: number;
@@ -29,7 +23,7 @@ const initialTime = 0.1 * 60;
 let countdownTimeout: NodeJS.Timeout;
 
 const CountdownProvider: React.FC<CountdownProviderProps> = ({ children }) => {
-    const { startNewChallenge } = useContext(ChallengesContext);
+    const { startNewChallenge } = useChallengesContext();
 
     const [time, setTime] = useState(initialTime);
     const [isActiveCountdown, setIsActiveCountdown] = useState(false);

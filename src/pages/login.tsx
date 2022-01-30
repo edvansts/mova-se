@@ -6,6 +6,7 @@ import SEO from '../components/SEO';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import favicon from '/public/favicon.png';
+import CookieAdapter from '../infra/CookieAdapter';
 
 import styles from '../styles/pages/Login.module.css';
 
@@ -50,7 +51,7 @@ export default function Login() {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-    if (context.req.cookies.user) {
+    if (context.req.cookies[CookieAdapter.getKey('token')]) {
         return {
             props: {},
             redirect: {

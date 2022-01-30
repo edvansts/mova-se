@@ -1,14 +1,13 @@
-import React, { useContext } from 'react';
-import { ChallengesContext } from '../contexts/ChallengesContext';
-
-import useTranslation from 'next-translate/useTranslation';
-
 import styles from '../styles/components/Profile.module.css';
+
+import React from 'react';
+import useChallengesContext from '../hooks/useChallengesContext';
+import useTranslation from 'next-translate/useTranslation';
 
 const Profile: React.FC = () => {
     const { t } = useTranslation();
 
-    const { level, user } = useContext(ChallengesContext);
+    const { level, user } = useChallengesContext();
 
     return (
         <div className={styles.profileContainer}>

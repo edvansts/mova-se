@@ -1,17 +1,17 @@
-import React, { useContext } from 'react';
-import { ChallengesContext } from '../contexts/ChallengesContext';
-import useTranslation from 'next-translate/useTranslation';
-
 import styles from '../styles/components/CompletedChallenges.module.css';
+
+import React from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import useChallengesContext from '../hooks/useChallengesContext';
 
 const CompletedChallenges: React.FC = () => {
     const { t } = useTranslation('home');
 
-    const { challengesCompleted } = useContext(ChallengesContext);
+    const { challengesCompleted } = useChallengesContext();
 
     return (
         <div className={styles.completedChallengesContainer}>
-            <span>{t("challengesCompleted")}</span>
+            <span>{t('challengesCompleted')}</span>
             <span>{challengesCompleted}</span>
         </div>
     );

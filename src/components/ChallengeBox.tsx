@@ -1,24 +1,21 @@
-import React, { useContext, useEffect } from 'react';
-import { ChallengesContext } from '../contexts/ChallengesContext';
-import { CountdownContext } from '../contexts/CountdownContext';
-import useTranslation from 'next-translate/useTranslation';
-
 import styles from '../styles/components/ChallengeBox.module.css';
 
-interface ChallengeBox {
+import React, { useEffect } from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import useCountdownContext from '../hooks/useCountdownContext';
+import useChallengesContext from '../hooks/useChallengesContext';
+
+interface Props {
     randomTextShow: number;
 }
 
-const ChallengeBox: React.FC<ChallengeBox> = ({ randomTextShow }) => {
-    const { resetCountdown } = useContext(CountdownContext);
+function ChallengeBox({ randomTextShow }: Props) {
+    const { resetCountdown } = useCountdownContext();
 
     const { t } = useTranslation('home');
 
-    const {
-        currentChallenge,
-        failedChallenge,
-        successfullyChallenge,
-    } = useContext(ChallengesContext);
+    const { currentChallenge, failedChallenge, successfullyChallenge } =
+        useChallengesContext();
 
     useEffect(() => {
         if (currentChallenge) {
@@ -100,5 +97,6 @@ const ChallengeBox: React.FC<ChallengeBox> = ({ randomTextShow }) => {
             )}
         </div>
     );
-};
+}
+
 export default ChallengeBox;

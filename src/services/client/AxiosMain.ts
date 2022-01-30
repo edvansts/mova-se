@@ -4,7 +4,7 @@ const AxiosMain = axios.create({
     baseURL: '/api',
 });
 
-export function setToken(token: string) {
+export function setAuthorizationToken(token: string) {
     AxiosMain.defaults.headers.common['Authorization'] = token;
 }
 
